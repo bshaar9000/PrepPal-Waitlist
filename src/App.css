@@ -1,0 +1,403 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Reset and Variables */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #5B5FDE;
+  --primary-dark: #4547B8;
+  --accent: #00D4FF;
+  --dark: #0A0B1E;
+  --gray: #6B7280;
+  --light-gray: #F3F4F6;
+  --white: #FFFFFF;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background: linear-gradient(135deg, #0A0B1E 0%, #1A1B3A 100%);
+  color: var(--white);
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Animated background elements */
+.bg-animation {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  opacity: 0.5;
+}
+
+.floating-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(40px);
+  animation: float 20s infinite ease-in-out;
+}
+
+.orb1 {
+  width: 300px;
+  height: 300px;
+  top: -150px;
+  right: -100px;
+  background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+  animation-delay: 0s;
+}
+
+.orb2 {
+  width: 400px;
+  height: 400px;
+  bottom: -200px;
+  left: -150px;
+  background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+  animation-delay: 7s;
+}
+
+.orb3 {
+  width: 250px;
+  height: 250px;
+  top: 50%;
+  right: 10%;
+  background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+  animation-delay: 14s;
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -30px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.9); }
+}
+
+/* Content */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Header */
+header {
+  padding: 30px 0;
+  backdrop-filter: blur(10px);
+  position: relative;
+  z-index: 10;
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--white) 0%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+}
+
+/* Hero Section */
+.hero {
+  padding: 80px 0 120px;
+  text-align: center;
+  position: relative;
+}
+
+.badge {
+  display: inline-block;
+  padding: 8px 20px;
+  background: rgba(0, 212, 255, 0.1);
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  border-radius: 30px;
+  font-size: 14px;
+  color: var(--accent);
+  margin-bottom: 30px;
+  animation: pulse-glow 2s infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(0, 212, 255, 0.1); }
+  50% { box-shadow: 0 0 30px rgba(0, 212, 255, 0.3); }
+}
+
+h1 {
+  font-size: clamp(36px, 8vw, 64px);
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 30px;
+  background: linear-gradient(135deg, var(--white) 0%, var(--accent) 50%, var(--primary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background-size: 200% 200%;
+  animation: gradient-shift 3s ease-in-out infinite;
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.subtitle {
+  font-size: clamp(18px, 3vw, 24px);
+  color: rgba(255, 255, 255, 0.8);
+  max-width: 700px;
+  margin: 0 auto 50px;
+  line-height: 1.6;
+}
+
+/* Waitlist Form */
+.waitlist-form {
+  max-width: 500px;
+  margin: 0 auto 60px;
+  position: relative;
+}
+
+.form-container {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 8px;
+  display: flex;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.form-container:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-2px);
+  box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+}
+
+.email-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 18px 24px;
+  font-size: 16px;
+  color: var(--white);
+  outline: none;
+}
+
+.email-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.submit-btn {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: var(--white);
+  border: none;
+  padding: 18px 36px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.submit-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(91, 95, 222, 0.4);
+}
+
+.submit-btn:active {
+  transform: scale(0.98);
+}
+
+.submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Value Props */
+.value-props {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin: 80px 0;
+}
+
+.value-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 40px 30px;
+  text-align: center;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.value-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  animation: scan 3s infinite;
+}
+
+@keyframes scan {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.value-card:hover {
+  transform: translateY(-10px);
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 30px 60px rgba(91, 95, 222, 0.3);
+}
+
+.value-icon {
+  font-size: 48px;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.value-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: var(--white);
+}
+
+.value-description {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+}
+
+/* Testimonial */
+.testimonial {
+  text-align: center;
+  padding: 60px 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.quote {
+  font-size: 28px;
+  font-style: italic;
+  color: var(--accent);
+  margin-bottom: 30px;
+  position: relative;
+  line-height: 1.4;
+}
+
+.quote::before,
+.quote::after {
+  content: '"';
+  font-size: 60px;
+  position: absolute;
+  opacity: 0.3;
+}
+
+.quote::before {
+  top: -20px;
+  left: -40px;
+}
+
+.quote::after {
+  bottom: -40px;
+  right: -40px;
+}
+
+/* Success Message */
+.success-message {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  color: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 20px;
+  animation: slideUp 0.5s ease;
+}
+
+.error-message {
+  background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+  color: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 20px;
+  animation: slideUp 0.5s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 40px 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 100px;
+}
+
+.footer-text {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 14px;
+}
+
+/* Loading state */
+.loading {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .hero {
+    padding: 60px 0 80px;
+  }
+
+  .value-props {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .form-container {
+    flex-direction: column;
+  }
+
+  .submit-btn {
+    width: 100%;
+  }
+
+  .quote::before,
+  .quote::after {
+    display: none;
+  }
+}
