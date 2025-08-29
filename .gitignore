@@ -16,6 +16,13 @@ build/
 .env.test.local
 .env.production.local
 
+# Vercel deployment
+.vercel/
+vercel.json
+
+# GitHub workflows
+.github/
+
 # IDE files
 .vscode/
 .idea/
@@ -42,4 +49,8 @@ coverage/
 # Temporary folders
 tmp/
 temp/
+
+# Documentation files that might contain sensitive info
+*SETUP.md
+env.example
 .vercel
