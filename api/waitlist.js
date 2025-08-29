@@ -33,11 +33,17 @@ export default async function handler(req, res) {
     return;
   }
 
-  if (req.method === 'POST') {
-    try {
-      // Connect to MongoDB
-      await mongoose.connect(MONGODB_URI);
-      
+  try {
+    // Connect to MongoDB with better error handling
+    if (mongoose.connection.readyState !== 1) {
+      await mongoose.connect(MONGODB_URI, {
+        maxPoolSize: 10,
+        serverSelectionTimeoutMS: 5000,
+        socketTimeoutMS: 45000,
+      });
+    }
+
+    if (req.method === 'POST') {
       const { email, source } = req.body;
       const ipAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
       const userAgent = req.headers['user-agent'];
@@ -62,13 +68,7 @@ export default async function handler(req, res) {
 
       await newUser.save();
       res.status(201).json({ success: true, message: 'Successfully added to PrepPal waitlist!', data: newUser });
-    } catch (error) {
-      console.error('Database error:', error);
-      res.status(500).json({ success: false, message: 'Internal server error' });
-    }
-  } else if (req.method === 'GET') {
-    try {
-      await mongoose.connect(MONGODB_URI);
+    } else if (req.method === 'GET') {
       const count = await WaitlistUser.countDocuments();
       const pendingCount = await WaitlistUser.countDocuments({ status: 'pending' });
       const invitedCount = await WaitlistUser.countDocuments({ status: 'invited' });
@@ -83,12 +83,31 @@ export default async function handler(req, res) {
           active: activeCount,
         }
       });
-    } catch (error) {
-      console.error('Database error:', error);
-      res.status(500).json({ success: false, message: 'Internal server error' });
+    } else {
+      res.setHeader('Allow', ['GET', 'POST']);
+      res.status(405).end(`Method ${req.method} Not Allowed`);
     }
-  } else {
-    res.setHeader('Allow', ['GET', 'POST']);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
+  } catch (error) {
+    console.error('API Error:', error);
+    
+    // More specific error messages
+    if (error.name === 'MongoNetworkError') {
+      return res.status(500).json({ 
+        success: false, 
+        message: 'Database connection failed. Please try again.' 
+      });
+    }
+    
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Invalid data provided.' 
+      });
+    }
+    
+    res.status(500).json({ 
+      success: false, 
+      message: 'Internal server error. Please try again later.' 
+    });
   }
 }
